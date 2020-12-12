@@ -39,6 +39,9 @@ DOCUMENTATION = '''
       default: "$HOME/ansible_logs"
 '''
 
+# By the way, the file is prefixed with 'zzz_' to ensure it runs last.
+# This is possibly not foolproof.
+
 class CallbackModule(CallbackBase):
     """
     This callback module rotates ansible.log using the logrotate program.
