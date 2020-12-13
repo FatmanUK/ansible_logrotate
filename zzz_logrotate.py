@@ -7,7 +7,7 @@ Ansible callback plugin to run logrotate on the ansible.log file
 from __future__ import (absolute_import, division, print_function)
 from time import sleep
 from subprocess import Popen, PIPE
-from os import fork, _exit, path, mkdir, getcwd
+from os import fork, _exit, path, mkdir, getcwd, environ
 import sys
 from ansible.plugins.callback import CallbackBase
 
@@ -132,3 +132,9 @@ class CallbackModule(CallbackBase):
         pipe = Popen(cmd, cwd='/', stdout=PIPE, stderr=PIPE)
         for line in pipe.stdout:
             print(line)
+        # print PS1 variable to imitate prompt
+        try:
+            ps1 = environ['PS1']
+            print(ps1, end='', flush=True)
+        except KeyError:
+            print('$ ', end='', flush=True)
