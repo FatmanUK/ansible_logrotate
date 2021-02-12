@@ -53,7 +53,7 @@ class CallbackModule(CallbackBase):
 
     def __init__(self):
         super().__init__()
-        print('started logrotate plugin')
+        #print('started logrotate plugin')
 
     def v2_playbook_on_stats(self, stats):
         super().v2_playbook_on_stats(stats)
@@ -63,22 +63,22 @@ class CallbackModule(CallbackBase):
             if pid > 0:
                 return
         except OSError:
-            print('Error: Unable to fork')
+            #print('Error: Unable to fork')
             sys.exit(1)
         sleep(0.5)
         # special exit to avoid multiple calls to atexit
-        print('')
+        #print('')
         self.check_config_installed()
         self.run_logrotate()
         _exit(0)
 
     def check_config_installed(self):
         '''Check the config exists and is correct'''
-        print('Checking logrotate config...')
+        #print('Checking logrotate config...')
         logdir = path.expandvars(self._plugin_options['logdir'])
         confdir = path.expandvars(self._plugin_options['confdir'])
-        print('logdir = %s' % logdir)
-        print('confdir = %s' % confdir)
+        #print('logdir = %s' % logdir)
+        #print('confdir = %s' % confdir)
         # check directories exist and have conf file in
         if not path.exists(logdir):
             mkdir(logdir)
@@ -119,16 +119,16 @@ class CallbackModule(CallbackBase):
         '''Run logrotate'''
         logdir = path.expandvars(self._plugin_options['logdir'])
         confdir = path.expandvars(self._plugin_options['confdir'])
-        print('Rotating log file...')
-        print('logdir = %s' % logdir)
-        print('confdir = %s' % confdir)
+        #print('Rotating log file...')
+        #print('logdir = %s' % logdir)
+        #print('confdir = %s' % confdir)
         cmd = [
             '/usr/bin/logrotate',
             '-s',
             '%s/logrotate.state' % confdir,
             '%s/logrotate.conf' % confdir,
         ]
-        print('Running %s...' % cmd)
+        #print('Running %s...' % cmd)
         pipe = Popen(cmd, cwd='/', stdout=PIPE, stderr=PIPE)
-        for line in pipe.stdout:
-            print(line)
+        #for line in pipe.stdout:
+            #print(line)
